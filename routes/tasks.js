@@ -109,6 +109,10 @@ module
                     }
                     task.assignedUser = user._id;
                     task.assignedUserName = user.name;
+                    if (!user.pendingTasks.includes(task._id)) {
+                        user.pendingTasks.push(task._id);
+                        await user.save({session});
+                    }
                 } else {
                     task.assignedUser = "";
                     task.assignedUserName = "no name assigned";
