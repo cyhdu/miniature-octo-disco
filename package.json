@@ -9,7 +9,7 @@
     "Sujay Khandekar <khandek2@illinois.edu>"
   ],
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js"
   },
   "babel": {
     "presets": [
