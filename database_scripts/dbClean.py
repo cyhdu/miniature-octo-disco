@@ -16,12 +16,14 @@ import http.client
 import urllib
 import json
 
+
 def usage():
     print('dbClean.py -u <baseurl> -p <port>')
 
+
 def getUsers(conn):
     # Retrieve the list of users
-    conn.request("GET","""/api/users?filter={"_id":1}""")
+    conn.request("GET", """/api/users?filter={"_id":1}""")
     response = conn.getresponse()
     data = response.read()
     d = json.loads(data)
@@ -31,9 +33,10 @@ def getUsers(conn):
 
     return users
 
+
 def getTasks(conn):
     # Retrieve the list of tasks
-    conn.request("GET","""/api/tasks?filter={"_id":1}""")
+    conn.request("GET", """/api/tasks?filter={"_id":1}""")
     response = conn.getresponse()
     data = response.read()
     d = json.loads(data)
@@ -43,25 +46,25 @@ def getTasks(conn):
 
     return tasks
 
-def main(argv):
 
+def main(argv):
     # Server Base URL and port
     baseurl = "localhost"
     port = 4000
 
     try:
-        opts, args = getopt.getopt(argv,"hu:p:",["url=","port="])
+        opts, args = getopt.getopt(argv, "hu:p:", ["url=", "port="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-             usage()
-             sys.exit()
+            usage()
+            sys.exit()
         elif opt in ("-u", "--url"):
-             baseurl = str(arg)
+            baseurl = str(arg)
         elif opt in ("-p", "--port"):
-             port = int(arg)
+            port = int(arg)
 
     # Server to connect to (1: url, 2: port number)
     conn = http.client.HTTPConnection(baseurl, port)
@@ -74,7 +77,7 @@ def main(argv):
 
         # Delete each individual user
         for user in users:
-            conn.request("DELETE","/api/users/"+user)
+            conn.request("DELETE", "/api/users/" + user)
             response = conn.getresponse()
             data = response.read()
 
@@ -89,7 +92,7 @@ def main(argv):
 
         # Delete each individual task
         for task in tasks:
-            conn.request("DELETE","/api/tasks/"+task)
+            conn.request("DELETE", "/api/tasks/" + task)
             response = conn.getresponse()
             data = response.read()
 
@@ -98,8 +101,8 @@ def main(argv):
 
     # Exit gracefully
     conn.close()
-    print("All users and tasks removed at "+baseurl+":"+str(port))
+    print("All users and tasks removed at " + baseurl + ":" + str(port))
 
 
 if __name__ == "__main__":
-     main(sys.argv[1:])
+    main(sys.argv[1:])
